@@ -70,55 +70,55 @@ terraform/
 
 ## Deployment Instructions
 
-1. Clone the repository
+# 1. Clone the repository
 
-git clone https://github.com/YOUR_GITHUB_USERNAME/serverless-file-processing-terraform.git
+    git clone https://github.com/YOUR_GITHUB_USERNAME/serverless-file-processing-terraform.git
 
-cd serverless-file-processing-terraform
+    cd serverless-file-processing-terraform
 
-2. Configure AWS credentials
+# 2. Configure AWS credentials
 
-aws configure
+    aws configure
 
-Provide:
+    Provide:
 
-AWS Access Key
+    AWS Access Key
 
-AWS Secret Key
+    AWS Secret Key
 
-Region
+    Region
 
-3. Configure Terraform variables
+# 3. Configure Terraform variables
 
-Copy the example file:
+    Copy the example file:
 
-cp terraform/terraform.tfvars.example terraform/terraform.tfvars
+        cp terraform/terraform.tfvars.example terraform/terraform.tfvars
 
-Edit the file and add your values.
+    Edit the file and add your values.
 
-Example:
+    Example:
 
-bucket_name = "your-unique-bucket-name"
+        bucket_name = "your-unique-bucket-name"
 
-dynamodb_table_name = "file_metadata_table"
+        dynamodb_table_name = "file_metadata_table"
 
-sns_topic_name = "file-upload-notification-topic"
+        sns_topic_name = "file-upload-notification-topic"
 
 
-4. Initialize Terraform
+# 4. Initialize Terraform
 
-cd terraform
+    cd terraform
 
-terraform init
+    terraform init
 
-5. Deploy Infrastructure
+# 5. Deploy Infrastructure
 
-terraform plan
-terraform apply
+    terraform plan
+    terraform apply
 
 Type:
 
-yes
+    yes
 
 Terraform will create:
 
