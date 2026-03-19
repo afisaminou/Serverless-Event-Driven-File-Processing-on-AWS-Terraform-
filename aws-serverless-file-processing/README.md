@@ -51,7 +51,7 @@ This architecture removes manual work and ensures that file uploads are automati
 ![alt text](<Screenshots/Serverless file processing architecture diagram.PNG>)
 
 
-Workflow Summary:
+**Workflow Summary:**
 
 User → S3 Upload → Lambda Trigger → DynamoDB Storage + SNS Notification
 
