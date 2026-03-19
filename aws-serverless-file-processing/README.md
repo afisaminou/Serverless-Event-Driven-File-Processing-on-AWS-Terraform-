@@ -2,144 +2,154 @@
 
 ## Project Overview
 
-This project demonstrates how to build a serverless event-driven architecture on AWS using Terraform.
-When a file is uploaded to Amazon S3, an AWS Lambda function is automatically triggered. The Lambda function extracts file metadata and stores it in a DynamoDB table, while also sending a notification through Amazon SNS.
-The infrastructure is fully deployed using Infrastructure as Code (Terraform).
+A growing digital media company needs an automated system to process files uploaded by users. Previously, employees manually monitored uploads and recorded file information in spreadsheets. This process was inefficient, error-prone, and could not scale with increasing user activity.
 
-## Architecture
+To address this challenge, a serverless event-driven architecture was designed and deployed using AWS and Terraform. The system automatically processes uploaded files, stores metadata, and notifies the operations team in real time.
 
-Workflow:
+The entire infrastructure is deployed using Infrastructure as Code (Terraform) to ensure consistency, repeatability, and easier maintenance.
 
-User uploads file → S3 bucket
 
-S3 event triggers Lambda
+## Business Problem
 
-Lambda processes metadata
+The company faced several operational challenges:
 
-Metadata stored in DynamoDB
+## 1. Manual File Tracking
 
-Notification sent via SNS
+Staff had to manually review uploaded files and document metadata such as file name, size, and upload time.
+
+## 2. Lack of Real-Time Notifications
+
+The operations team was not immediately aware when new files were uploaded.
+
+## 3. Scalability Issues
+
+As the number of users increased, manual monitoring became impractical and time-consuming.
+
+## 4. Risk of Data Loss
+
+Without centralized metadata storage, important information about uploaded files could be lost or misrecorded.
+
+
+## Solution
+
+A #serverless event-driven architecture# was implemented using AWS services to automate file processing.
+
+When a user uploads a file:
+
+1. The file is stored in an #Amazon S3 bucket.#
+
+2. The upload event automatically triggers an #AWS Lambda function.#
+
+3. The Lambda function extracts file metadata.
+
+4. Metadata is stored in #Amazon DynamoDB.#
+
+5. A notification is sent to the operations team through Amazon SNS.
+
+This architecture removes manual work and ensures that file uploads are automatically processed in real time.
+
+
+## Architecture Diagram
+
+![alt text](<Screenshots/Serverless file processing architecture diagram.PNG>)
+
+User Upload
+     │
+     ▼
+Amazon S3 Bucket
+(File Upload Event)
+     │
+     ▼
+AWS Lambda Function
+(File Metadata Processing)
+     │
+     ├──────────────► Amazon DynamoDB
+     │                 (Metadata Storage)
+     │
+     └──────────────► Amazon SNS
+                       (Notification Service)
+
+
+Workflow Summary:
+
+User → S3 Upload → Lambda Trigger → DynamoDB Storage + SNS Notification
 
 ## AWS Services Used
 
-• Amazon S3
+• Amazon S3 - File storage and event trigger
 
-• AWS Lambda
+• AWS Lambda - Serverless processing of uploaded files
 
-• Amazon DynamoDB
+• Amazon DynamoDB - NoSQL database for storing file metadata
 
-• Amazon SNS
+• Amazon SNS - Notification service for alerting the operations team
 
-• AWS IAM
+• AWS IAM - Securte permissions between services
 
-• Terraform (Infrastructure as Code)
-
-
-## Features
-
-• Fully serverless architecture
-
-• Event-driven processing
-
-• Infrastructure deployed with Terraform
-
-• Metadata persistence in DynamoDB
-
-• Real-time notifications with SNS
+• Terraform - Infrastructure as Code for automated deployment
 
 
-## Repository Structure
+## Key Benefits of the Solution
 
-serverless-file-processing-terraform
+• Automation: File processing is fully automated with no manual intervention required.
 
-architecture/
+• Scalability: Serverless architecture automatically scales based on the number of file uploads
 
-    architecture-diagram.png
+• Real-Time Notifications: The operations team receives immediate alerts when files are uploaded.
 
-lambda/
+• Centralized Metadata Storage: File information is stored reliably in DynamoDB for auditing and analytics.
 
-    lambda_function.py
-    lambda_function.zip
-
-terraform/
-
-    main.tf
-    variables.tf
-    outputs.tf
-    terraform.tfvars.example
-
-## Deployment Instructions
-
-# 1. Clone the repository
-
-    git clone https://github.com/YOUR_GITHUB_USERNAME/serverless-file-processing-terraform.git
-
-    cd serverless-file-processing-terraform
-
-# 2. Configure AWS credentials
-
-    aws configure
-
-    Provide:
-
-    AWS Access Key
-
-    AWS Secret Key
-
-    Region
-
-# 3. Configure Terraform variables
-
-    Copy the example file:
-
-        cp terraform/terraform.tfvars.example terraform/terraform.tfvars
-
-    Edit the file and add your values.
-
-    Example:
-
-        bucket_name = "your-unique-bucket-name"
-
-        dynamodb_table_name = "file_metadata_table"
-
-        sns_topic_name = "file-upload-notification-topic"
+• Infrastructure as Code: Terraform ensures the environment can be deployed consistently across different environments.
 
 
-# 4. Initialize Terraform
+## Example Metadata Stored
 
-    cd terraform
+When a file is uploaded, the Lambda function stores metadata such as:
 
-    terraform init
+file_id
+bucket
+file_name
+file_size
+uploaded_at
 
-# 5. Deploy Infrastructure
+This enables the company to track and audit all file uploads efficiently.
 
-    terraform plan
-    terraform apply
+## Future Improvements
 
-Type:
+Several improvements could be implemented to enhance this architecture:
 
-    yes
+## 1. File Type Validation
 
-Terraform will create:
+Lambda could validate file types (e.g., only allow CSV, images, or PDFs).
 
-• S3 bucket
+## 2. Dead Letter Queue (DLQ)
 
-• Lambda function
+Use Amazon SQS to capture failed Lambda executions for troubleshooting.
 
-• DynamoDB table
+## 3. CloudWatch Monitoring
 
-• SNS topic
+Add CloudWatch alarms and metrics to monitor failures and performance.
 
-• IAM roles
+## 4. Security Enhancements
 
-• S3 event trigger
+Enable encryption for:
 
-## Testing the System
+• S3 objects
 
-1. Upload a file to the S3 bucket.
+• DynamoDB tables
 
-2. The Lambda function will automatically process the file.
+• SNS messages
 
-3. File metadata will be stored in DynamoDB.
+## 5. Data Processing Pipeline
 
-4. A notification will be sent through SNS.
+The Lambda function could perform additional tasks such as:
+
+• Image processing
+
+• Data transformation
+
+• File scanning for malware
+
+## 6. CI/CD Automation
+
+Implement a CI/CD pipeline using GitHub Actions to automatically deploy Terraform infrastructure.
